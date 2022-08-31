@@ -32,27 +32,11 @@ import {
 import makeData from './makeData.js'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
-  const original = Object.values(row.original).toString();
+  const original = Object.values(row.original);
   const searchInput = value.split(" ");
 
-  const searchTrue = original.toLowerCase().includes(searchInput);
-
-  if(searchTrue){
-    return original;
-  }
-
-
-
-  // searchInput.map(item => {
-  //   console.log(item, "item");
-  //   const searchTrue = original.toLowerCase().includes(item);
-  //
-  //   console.log(searchTrue);
-  //   if(searchTrue){
-  //     // console.log(original);
-  //     return original;
-  //   }
-  // })
+  const a = searchInput.every(x => original.toString().toLowerCase().indexOf(x) > -1) ? original : console.log("no");
+  return a;
 }
 
 const fuzzySort = (rowA, rowB, columnId) => {
