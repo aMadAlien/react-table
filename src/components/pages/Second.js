@@ -30,6 +30,7 @@ import {
 } from '@tanstack/match-sorter-utils'
 
 import makeData from "../makeData";
+import Search from "../Search";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
     const original = Object.values(row.original);
@@ -162,34 +163,15 @@ function First() {
         }
     }, [table.getState().columnFilters[0]?.id])
 
-    const [open, setOpen] = useState(true);
-
     return (
         <div className="p-2">
-            <div className="search__dropdow-menu">
-                <div className="search__input">
-                    <DebouncedInput
-                        value={globalFilter ?? ''}
-                        onChange={value => setGlobalFilter(String(value))}
-                        className="p-2 font-lg shadow border border-block"
-                        placeholder="Search all columns..."
-                    />
-                    <button onClick={() => setOpen(!open)}>{open ? ">" : "x"}</button>
-                </div>
-                <ul className={`menu__def ${open ? "menu__close" : "menu__open"}`}>
-                    {table.getHeaderGroups().map(headerGroup =>
-                        headerGroup.headers.map(header =>
-                            header.isPlaceholder ? null : (
-                                header.column.getCanFilter() ? (
-                                    <div>
-                                        <Filter column={header.column} table={table}/>
-                                    </div>
-                                ) : null
-                            )
-                        )
-                    )}
-                </ul>
-            </div>
+            <Search
+                DebouncedInput={DebouncedInput}
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                table={table}
+                Filter={Filter}
+            />
             <div className="h-2" />
             <table>
                 <thead>
@@ -352,7 +334,7 @@ function Filter({
                     onChange={value =>
                         column.setFilterValue((old) => [value, old?.[1]])
                     }
-                    placeholder={`Min ${
+                    placeholder={`min ${
                         column.getFacetedMinMaxValues()?.[0]
                             ? `(${column.getFacetedMinMaxValues()?.[0]})`
                             : ''
@@ -367,7 +349,7 @@ function Filter({
                     onChange={value =>
                         column.setFilterValue((old) => [old?.[0], value])
                     }
-                    placeholder={`Max ${
+                    placeholder={`max ${
                         column.getFacetedMinMaxValues()?.[1]
                             ? `(${column.getFacetedMinMaxValues()?.[1]})`
                             : ''
@@ -388,7 +370,7 @@ function Filter({
                 type="text"
                 value={(columnFilterValue ?? '')}
                 onChange={value => column.setFilterValue(value)}
-                placeholder={`Search my... (${column.getFacetedUniqueValues().size})`}
+                placeholder={`${column.id}... (${column.getFacetedUniqueValues().size})`}
                 className="menu__item"
                 list={column.id + 'list'}
             />

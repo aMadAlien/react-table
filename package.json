@@ -2,7 +2,7 @@
   "name": "react-table-f",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://aMadAlien.github.io/react-table",
+  "homepage": "https://aMadAlien.github.io/react-table/",
   "dependencies": {
     "@faker-js/faker": "^7.4.0",
     "@tanstack/match-sorter-utils": "^8.1.1",
