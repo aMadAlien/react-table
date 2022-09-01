@@ -1,4 +1,4 @@
-import {Outlet, Link, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {Fragment} from "react";
 import First from "./components/pages/First";
 import Second from "./components/pages/Second";
@@ -9,7 +9,7 @@ const App = () => {
         <Fragment>
             <Nav/>
             <Routes>
-                <Route path="/" element={<First/>} />
+                <Route index element={<First/>} />
                 <Route path="/second" element={<Second/>} />
             </Routes>
         </Fragment>

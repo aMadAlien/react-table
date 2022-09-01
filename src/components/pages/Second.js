@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import ReactDOM from 'react-dom/client'
 
 import './PagesStyles.css'
@@ -35,7 +35,7 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
     const original = Object.values(row.original);
     const searchInput = value.split(" ");
 
-    const a = searchInput.every(x => original.toString().toLowerCase().indexOf(x) > -1) ? original : console.log("no");
+    const a = searchInput.every(x => original.toString().toLowerCase().indexOf(x) > -1) ? original : "";
     return a;
 }
 
@@ -162,15 +162,33 @@ function First() {
         }
     }, [table.getState().columnFilters[0]?.id])
 
+    const [open, setOpen] = useState(true);
+
     return (
         <div className="p-2">
-            <div>
-                <DebouncedInput
-                    value={globalFilter ?? ''}
-                    onChange={value => setGlobalFilter(String(value))}
-                    className="p-2 font-lg shadow border border-block"
-                    placeholder="Search all columns..."
-                />
+            <div className="search__dropdow-menu">
+                <div className="search__input">
+                    <DebouncedInput
+                        value={globalFilter ?? ''}
+                        onChange={value => setGlobalFilter(String(value))}
+                        className="p-2 font-lg shadow border border-block"
+                        placeholder="Search all columns..."
+                    />
+                    <button onClick={() => setOpen(!open)}>{open ? ">" : "x"}</button>
+                </div>
+                <ul className={`menu__def ${open ? "menu__close" : "menu__open"}`}>
+                    {table.getHeaderGroups().map(headerGroup =>
+                        headerGroup.headers.map(header =>
+                            header.isPlaceholder ? null : (
+                                header.column.getCanFilter() ? (
+                                    <div>
+                                        <Filter column={header.column} table={table}/>
+                                    </div>
+                                ) : null
+                            )
+                        )
+                    )}
+                </ul>
             </div>
             <div className="h-2" />
             <table>
@@ -199,11 +217,11 @@ function First() {
                                                     desc: ' 🔽',
                                                 }[header.column.getIsSorted()] ?? null}
                                             </div>
-                                            {header.column.getCanFilter() ? (
-                                                <div>
-                                                    <Filter column={header.column} table={table} />
-                                                </div>
-                                            ) : null}
+                                            {/*{header.column.getCanFilter() ? (*/}
+                                            {/*    <div>*/}
+                                            {/*        <Filter column={header.column} table={table} />*/}
+                                            {/*    </div>*/}
+                                            {/*) : null}*/}
                                         </>
                                     )}
                                 </th>
@@ -339,7 +357,7 @@ function Filter({
                             ? `(${column.getFacetedMinMaxValues()?.[0]})`
                             : ''
                     }`}
-                    className="w-24 border shadow rounded"
+                    className="menu__item"
                 />
                 <DebouncedInput
                     type="number"
@@ -354,7 +372,7 @@ function Filter({
                             ? `(${column.getFacetedMinMaxValues()?.[1]})`
                             : ''
                     }`}
-                    className="w-24 border shadow rounded"
+                    className="menu__item"
                 />
             </div>
             <div className="h-1" />
@@ -370,8 +388,8 @@ function Filter({
                 type="text"
                 value={(columnFilterValue ?? '')}
                 onChange={value => column.setFilterValue(value)}
-                placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-                className="w-36 border shadow rounded"
+                placeholder={`Search my... (${column.getFacetedUniqueValues().size})`}
+                className="menu__item"
                 list={column.id + 'list'}
             />
             <div className="h-1" />

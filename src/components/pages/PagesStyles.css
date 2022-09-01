@@ -24,3 +24,33 @@ tfoot {
 tfoot th {
   font-weight: normal;
 }
+
+.search__dropdow-menu{
+  margin-bottom: 20px;
+}
+
+.search__input{
+  display: flex;
+}
+
+.menu__def{
+  width: 200px;
+  background-color: #fff;
+  border: 1px solid black;
+  position: absolute;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu__close{
+  visibility: hidden;
+}
+
+.menu__open{
+  visibility: visible;
+}
+
+.menu__item{
+  width: 96%;
+}
