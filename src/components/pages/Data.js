@@ -97,7 +97,9 @@ function Data({num}) {
                                 footer: props => props.column.id,
                             },
                             {
-                                accessorKey: 'status',
+                                // accessorKey: 'status',
+                                accessorFn: row => row.rel_status,
+                                id: 'status',
                                 header: 'Status',
                                 footer: props => props.column.id,
                             },

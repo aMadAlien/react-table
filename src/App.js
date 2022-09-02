@@ -1,7 +1,6 @@
 import {Outlet, Route, Routes} from "react-router-dom";
 import {Fragment} from "react";
 import First from "./components/pages/First";
-import Data from "./components/pages/Data";
 import Nav from "./components/navigation/Nav";
 import Second from "./components/pages/Second";
 

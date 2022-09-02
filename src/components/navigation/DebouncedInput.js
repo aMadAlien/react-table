@@ -22,8 +22,9 @@ function DebouncedInput({
         return () => clearTimeout(timeout)
     }, [value])
 
-    const stat = useMemo(() => table.getRowModel().rows.map(row => row.original.status), []);
+    const stat = useMemo(() => table.getRowModel().rows.map(row => row.original.rel_status), []);
     const statuses = [...(new Set(stat))];
+    console.log(table.getHeaderGroups()[2].headers[5], table.getRowModel().rows.map(row => row.original))
 
     return (
         <>
