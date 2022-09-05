@@ -1,10 +1,27 @@
 import React, {useMemo} from "react";
+import {compareItems} from "@tanstack/match-sorter-utils";
+import {sortingFns} from "@tanstack/react-table";
 
-const Table = ({fuzzySort, num}) => {
+const fuzzySort = (rowA, rowB, columnId) => {
+    let dir = 0
+
+    // Only sort by ranking the column has ranking information
+    if (rowA.columnFiltersMeta[columnId]) {
+        dir = compareItems(
+            rowA.columnFiltersMeta[columnId]?.itemRank,
+            rowB.columnFiltersMeta[columnId]?.itemRank
+        )
+    }
+
+    // Provide an alphanumeric fallback for when the item ranks are equal
+    return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
+}
+
+const Table = ({PAGE_NUMBER}) => {
     return useMemo(
         () => [
             {
-                header: `Name ${num}`,
+                header: `Name ${PAGE_NUMBER}`,
                 footer: props => props.column.id,
                 columns: [
                     {
@@ -31,7 +48,7 @@ const Table = ({fuzzySort, num}) => {
                 ],
             },
             {
-                header: `Info ${num}`,
+                header: `Info ${PAGE_NUMBER}`,
                 footer: props => props.column.id,
                 columns: [
                     {

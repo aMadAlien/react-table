@@ -9,17 +9,13 @@ import {
     getFacetedUniqueValues,
     getFacetedMinMaxValues,
     getPaginationRowModel,
-    sortingFns,
     getSortedRowModel,
     flexRender,
 } from '@tanstack/react-table'
 
-import { compareItems } from '@tanstack/match-sorter-utils'
-
 import makeData from "../makeData";
 import Search from "./Search";
 import SearchFilter from "./SearchFilter";
-import Table from "./Table";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
     const original = Object.values(row.original);
@@ -28,30 +24,13 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
     return searchInput.every(x => original.toString().toLowerCase().indexOf(x) > -1) ? original : "";
 }
 
-const fuzzySort = (rowA, rowB, columnId) => {
-    let dir = 0
-
-    // Only sort by ranking the column has ranking information
-    if (rowA.columnFiltersMeta[columnId]) {
-        dir = compareItems(
-            rowA.columnFiltersMeta[columnId]?.itemRank,
-            rowB.columnFiltersMeta[columnId]?.itemRank
-        )
-    }
-
-    // Provide an alphanumeric fallback for when the item ranks are equal
-    return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
-}
-
-function Data({num}) {
+function Data({columns}) {
     const rerender = useReducer(() => ({}), {})[1]
 
     const [columnFilters, setColumnFilters] = useState(
         []
     )
     const [globalFilter, setGlobalFilter] = useState('')
-
-    const columns = Table({fuzzySort, num});
 
     const [data, setData] = useState(() => makeData(100))
     const refreshData = () => setData(old => makeData(100))
