@@ -1,7 +1,8 @@
 import React from "react";
 import DebouncedInput from "./DebouncedInput";
+import {useMemo} from "react";
 
-function Filter({
+function SearchFilter({
                     column,
                     table,
                 }) {
@@ -12,7 +13,7 @@ function Filter({
 
     const columnFilterValue = column.getFilterValue()
 
-    const sortedUniqueValues = React.useMemo(
+    const sortedUniqueValues = useMemo(
         () =>
             typeof firstValue === 'number'
                 ? []
@@ -77,4 +78,4 @@ function Filter({
     )
 }
 
-export default Filter;
+export default SearchFilter;

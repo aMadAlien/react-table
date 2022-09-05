@@ -1,18 +1,16 @@
 import {Outlet, Route, Routes} from "react-router-dom";
 import {Fragment} from "react";
-import FirstV from "./components/pages/FirstV";
-import Data from "./components/Data";
-import First from "./components/pages/First";
-import Nav from "./components/navigation/Nav";
-import Second from "./components/pages/Second";
+import FirstPage from "./pages/FirstPage";
+import Navigation from "./navigation/Navigation";
+import SecondPage from "./pages/SecondPage";
 
 const App = () => {
     return (
         <Fragment>
-            <Nav/>
+            <Navigation/>
             <Routes>
-                <Route index element={<First/>} />
-                <Route path="second" element={<Second/>} />
+                <Route index element={<FirstPage/>} />
+                <Route path="second" element={<SecondPage/>} />
             </Routes>
             <Outlet/>
         </Fragment>

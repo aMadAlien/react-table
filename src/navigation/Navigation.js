@@ -1,6 +1,6 @@
 import {Fragment} from "react";
 import {Link} from "react-router-dom";
-import './Nav.css';
+import './Navigation.css';
 
 const Nav = () => {
     return (

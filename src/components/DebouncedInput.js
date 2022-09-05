@@ -1,20 +1,19 @@
 // A debounced input react component
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useState, useMemo} from "react";
 
 function DebouncedInput({
                             value: initialValue,
                             onChange,
                             debounce = 500,
                             table,
-                            list,
                             ...props
                         }) {
-    const [value, setValue] = React.useState(initialValue)
+    const [value, setValue] = useState(initialValue)
     useEffect(() => {
         setValue(initialValue)
     }, [initialValue])
 
-    React.useEffect(() => {
+    useEffect(() => {
         const timeout = setTimeout(() => {
             onChange(value)
         }, debounce)
@@ -22,12 +21,11 @@ function DebouncedInput({
         return () => clearTimeout(timeout)
     }, [value])
 
-    // const stat = useMemo(() => table.getRowModel().rows.map(row => row.original.status), []);
-    // const statuses = [...(new Set(stat))];
-    const original = useMemo(() =>table.getRowModel().rows.map(row => row.original), []);
-    const originalArrays = original.map(item => Object.values(item));
-    const statuses = [...(new Set(originalArrays.map(a => a[5])))];
-    console.log(statuses);
+
+    const STATUS_INDEX = 5;
+    const arrayOfPeopleObj = useMemo(() =>table.getRowModel().rows.map(row => row.original), []);
+    const arrayOfPeopleArr = arrayOfPeopleObj.map(item => Object.values(item));
+    const statuses = [...(new Set(arrayOfPeopleArr.map(a => a[STATUS_INDEX])))];
 
     return (
         <>

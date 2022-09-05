@@ -1,6 +1,6 @@
-import './pages/PagesStyles.css'
+import '../pages/PagesStyles.css'
 import React from "react";
-import {useReducer, useState, useMemo, useEffect} from "react";
+import {useReducer, useState, useEffect} from "react";
 import {
     useReactTable,
     getCoreRowModel,
@@ -16,9 +16,10 @@ import {
 
 import { compareItems } from '@tanstack/match-sorter-utils'
 
-import makeData from "./makeData";
-import Search from "./search/Search";
-import Filter from "./search/Filter";
+import makeData from "../makeData";
+import Search from "./Search";
+import SearchFilter from "./SearchFilter";
+import Table from "./Table";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
     const original = Object.values(row.original);
@@ -50,71 +51,7 @@ function Data({num}) {
     )
     const [globalFilter, setGlobalFilter] = useState('')
 
-    const columns = useMemo(
-        () => [
-            {
-                header: `Name ${num}`,
-                footer: props => props.column.id,
-                columns: [
-                    {
-                        accessorKey: 'firstName',
-                        cell: info => info.getValue(),
-                        footer: props => props.column.id,
-                    },
-                    {
-                        accessorFn: row => row.lastName,
-                        id: 'lastName',
-                        cell: info => info.getValue(),
-                        header: () => <span>Last Name</span>,
-                        footer: props => props.column.id,
-                    },
-                    {
-                        accessorFn: row => `${row.firstName} ${row.lastName}`,
-                        id: 'fullName',
-                        header: 'Full Name',
-                        cell: info => info.getValue(),
-                        footer: props => props.column.id,
-                        filterFn: 'fuzzy',
-                        sortingFn: fuzzySort,
-                    },
-                ],
-            },
-            {
-                header: `Info ${num}`,
-                footer: props => props.column.id,
-                columns: [
-                    {
-                        accessorKey: 'age',
-                        header: () => 'Age',
-                        footer: props => props.column.id,
-                    },
-                    {
-                        header: 'More Info',
-                        columns: [
-                            {
-                                accessorKey: 'visits',
-                                header: () => <span>Visits</span>,
-                                footer: props => props.column.id,
-                            },
-                            {
-                                // accessorKey: 'status',
-                                accessorFn: row => row.relStatus,
-                                id: 'status',
-                                header: 'Status',
-                                footer: props => props.column.id,
-                            },
-                            {
-                                accessorKey: 'progress',
-                                header: 'Profile Progress',
-                                footer: props => props.column.id,
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-        []
-    )
+    const columns = Table({fuzzySort, num});
 
     const [data, setData] = useState(() => makeData(100))
     const refreshData = () => setData(old => makeData(100))
@@ -156,7 +93,7 @@ function Data({num}) {
         <div className="p-2">
             <Search
                 table={table}
-                Filter={Filter}
+                Filter={SearchFilter}
             />
             <div className="h-2" />
             <table>
@@ -241,24 +178,24 @@ function Data({num}) {
                     {'>>'}
                 </button>
                 <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{' '}
-              {table.getPageCount()}
-          </strong>
-        </span>
+                  <div>Page</div>
+                  <strong>
+                    {table.getState().pagination.pageIndex + 1} of{' '}
+                      {table.getPageCount()}
+                  </strong>
+                </span>
                 <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-              type="number"
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={e => {
-                  const page = e.target.value ? Number(e.target.value) - 1 : 0
-                  table.setPageIndex(page)
-              }}
-              className="border p-1 rounded w-16"
-          />
-        </span>
+                  | Go to page:
+                  <input
+                      type="number"
+                      defaultValue={table.getState().pagination.pageIndex + 1}
+                      onChange={e => {
+                          const page = e.target.value ? Number(e.target.value) - 1 : 0
+                          table.setPageIndex(page)
+                      }}
+                      className="border p-1 rounded w-16"
+                  />
+                </span>
                 <select
                     value={table.getState().pagination.pageSize}
                     onChange={e => {
