@@ -1,9 +1,9 @@
-import Data from "./Data";
+import Data from "../Data";
 
-const Firts = () => {
+const First = () => {
     return (
             <Data num="1"/>
         )
 }
 
-export default Firts;
+export default First;

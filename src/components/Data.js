@@ -1,4 +1,4 @@
-import './PagesStyles.css'
+import './pages/PagesStyles.css'
 import React from "react";
 import {useReducer, useState, useMemo, useEffect} from "react";
 import {
@@ -16,9 +16,9 @@ import {
 
 import { compareItems } from '@tanstack/match-sorter-utils'
 
-import makeData from "../makeData";
-import Search from "../Search";
-import Filter from "../navigation/Filter";
+import makeData from "./makeData";
+import Search from "./search/Search";
+import Filter from "./search/Filter";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
     const original = Object.values(row.original);
@@ -30,7 +30,7 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 const fuzzySort = (rowA, rowB, columnId) => {
     let dir = 0
 
-    // Only sort by rankif the column has ranking information
+    // Only sort by ranking the column has ranking information
     if (rowA.columnFiltersMeta[columnId]) {
         dir = compareItems(
             rowA.columnFiltersMeta[columnId]?.itemRank,
@@ -98,7 +98,7 @@ function Data({num}) {
                             },
                             {
                                 // accessorKey: 'status',
-                                accessorFn: row => row.rel_status,
+                                accessorFn: row => row.relStatus,
                                 id: 'status',
                                 header: 'Status',
                                 footer: props => props.column.id,

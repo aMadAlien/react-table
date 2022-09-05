@@ -9,6 +9,7 @@ function Filter({
         .getPreFilteredRowModel()
         .flatRows[0]?.getValue(column.id)
 
+
     const columnFilterValue = column.getFilterValue()
 
     const sortedUniqueValues = React.useMemo(

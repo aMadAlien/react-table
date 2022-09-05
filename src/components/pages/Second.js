@@ -1,5 +1,4 @@
-import Data from "./Data";
-
+import Data from "../Data";
 const Second = () => {
     return (
             <Data num="2"/>
