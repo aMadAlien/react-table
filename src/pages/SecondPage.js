@@ -73,9 +73,10 @@ const Columns = ({PAGE_NUMBER}) => {
 
 const SecondPage = () => {
     const PAGE_NUMBER = 2;
+    const data = makeData(150);
     const columns = Columns({PAGE_NUMBER});
     return (
-        <Table makeData={makeData} columns={columns} />
+        <Table makeData={data} columns={columns} />
     )
 }
 

@@ -40,7 +40,7 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
     return searchInput.every(x => original.toString().toLowerCase().indexOf(x) > -1) ? original : "";
 }
 
-function Data({columns, makeData}) {
+function Data({makeData, columns}) {
     const rerender = useReducer(() => ({}), {})[1]
 
     const [columnFilters, setColumnFilters] = useState(
@@ -48,8 +48,8 @@ function Data({columns, makeData}) {
     )
     const [globalFilter, setGlobalFilter] = useState('')
 
-    const [data, setData] = useState(() => makeData(100))
-    const refreshData = () => setData(old => makeData(100))
+    const [data, setData] = useState(makeData)
+    const refreshData = () => setData(old => makeData())
 
     const table = useReactTable({
         data,

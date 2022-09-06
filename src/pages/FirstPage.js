@@ -73,11 +73,10 @@ const Columns = ({PAGE_NUMBER}) => {
 
 const FirstPage = () => {
     const PAGE_NUMBER = 1;
+    const data = makeData(100);
     const columns = Columns({PAGE_NUMBER});
     return (
-        <Fragment>
-            <Table makeData={makeData} columns={columns} />
-        </Fragment>
+            <Table makeData={data} columns={columns} />
     )
 }
 
